@@ -46,10 +46,6 @@ contract SupplyChain {
         return surveyID;
     }
 
-    function totalSurveys() public view returns (uint){
-        return surveys.length;
-    }   
-
     function newPublisher(string _companyName, string _contactInfo, string _products) public returns (uint publisherID){
         publisherID = publishers.length++;
         Publisher storage p = publishers[publisherID];
@@ -60,10 +56,6 @@ contract SupplyChain {
         return publisherID;
     }
 
-    function totalPublishers() public view returns (uint){
-        return publishers.length;
-    }
-
     function newConsultant(string _name, string _contactInfo, string _aboutMe) public returns (uint consultantID){
         consultantID = consultants.length++;
         Consultant storage c = consultants[consultantID];
@@ -72,6 +64,14 @@ contract SupplyChain {
         c.contactInfo = _contactInfo;
         c.aboutMe = _aboutMe;
         return consultantID;
+    }
+
+    function totalSurveys() public view returns (uint){
+        return surveys.length;
+    }   
+
+    function totalPublishers() public view returns (uint){
+        return publishers.length;
     }
 
     function totalConsultants() public view returns (uint){
