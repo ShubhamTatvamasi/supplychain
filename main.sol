@@ -9,17 +9,29 @@ contract SupplyChain {
         string planet;
     }
 
-    struct Actor {
+    struct Publisher {
 
         string companyName;
         string contactInfo;
         string products;
     }
 
-    Survey[] public surveys;
-    Actor[] public actors;
-    
+    struct Consultant {
 
+        string name;
+        string contactInfo;
+        string aboutMe;
+    }
+
+    Survey[] public surveys;
+    Publisher[] public publishers;
+    Consultant[] public consultants;
+    
+    mapping (address=>string) public companyName;
+    mapping (address=>bool) public isPublisher;
+    mapping (address=>bool) public isConsultant;
+    
+    
     function SupplyChain() public {
         
     }
@@ -27,6 +39,7 @@ contract SupplyChain {
     function newSurevy(string _name, string _country, string _planet) public returns (uint surveyID){
         surveyID = surveys.length++;
         Survey storage s = surveys[surveyID];
+        companyName[msg.sender] = _name;
         s.name = _name;
         s.country = _country;
         s.planet = _planet;
@@ -37,17 +50,32 @@ contract SupplyChain {
         return surveys.length;
     }   
 
-    function newActor(string _companyName, string _contactInfo, string _products) public returns (uint actorID){
-        actorID = actors.length++;
-        Actor storage a = actors[actorID];
-        a.companyName = _companyName;
-        a.contactInfo = _contactInfo;
-        a.products = _products;
-        return actorID;
+    function newPublisher(string _companyName, string _contactInfo, string _products) public returns (uint publisherID){
+        publisherID = publishers.length++;
+        Publisher storage p = publishers[publisherID];
+        isPublisher[msg.sender] = true;
+        p.companyName = _companyName;
+        p.contactInfo = _contactInfo;
+        p.products = _products;
+        return publisherID;
     }
 
-    function totalActors() public view returns (uint){
-        return actors.length;
-    }   
+    function totalPublishers() public view returns (uint){
+        return publishers.length;
+    }
+
+    function newConsultant(string _name, string _contactInfo, string _aboutMe) public returns (uint consultantID){
+        consultantID = consultants.length++;
+        Consultant storage c = consultants[consultantID];
+        isConsultant[msg.sender] = true;
+        c.name = _name;
+        c.contactInfo = _contactInfo;
+        c.aboutMe = _aboutMe;
+        return consultantID;
+    }
+
+    function totalConsultants() public view returns (uint){
+        return consultants.length;
+    }
 
 }
